@@ -24,5 +24,5 @@ SPARSE_WEIGHT = 0.3             # 关键词检索权重
 MAX_SPLIT_CHAR_NUMBER = 1000
 
 #  API服务
-ASYNC_DATABASE_URL = "mysql+aiomysql://root:978517@localhost:3306/FastAPI_first?charset=utf8"
+ASYNC_DATABASE_URL = "mysql+aiomysql://root:密码@localhost:3306/库名?charset=utf8"
 SALT_SUFFIX = "MYRAG"
