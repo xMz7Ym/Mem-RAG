@@ -7,7 +7,7 @@ from langchain_community.embeddings.dashscope import DashScopeEmbeddings
 from app.core import config_data as config
 from app.core.prompts import rag_prompt_template
 from langchain_community.chat_models.tongyi import ChatTongyi
-from app.core.file_history_store import get_history
+from app.utils.file_history_store import get_history
 from app.core.logger import logger
 
 os.environ["DASHSCOPE_API_KEY"] = config.DASHSCOPE_API_KEY
