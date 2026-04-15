@@ -3,7 +3,7 @@ import os
 
 # 基础配置
 md5_path = "./database/md5.text"
-DASHSCOPE_API_KEY = 'sk-xxxx'  # 请替换为实际的 Key
+DASHSCOPE_API_KEY = 'sk-02ef0c9077144c4e9fb62012f7ceff16'  # 请替换为实际的 Key
 EMBEDDINGS_MODEL = "text-embedding-v4"
 
 # Milvus 配置 (使用 Milvus Lite 本地文件模式)
@@ -24,5 +24,5 @@ SPARSE_WEIGHT = 0.3             # 关键词检索权重
 MAX_SPLIT_CHAR_NUMBER = 1000
 
 #  API服务
-ASYNC_DATABASE_URL = "mysql+aiomysql://root:密码@localhost:3306/库名?charset=utf8"
+ASYNC_DATABASE_URL = "mysql+aiomysql://root:978517@localhost:3306/FastAPI_first?charset=utf8"
 SALT_SUFFIX = "MYRAG"

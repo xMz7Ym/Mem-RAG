@@ -18,9 +18,21 @@ class VectorStoreService:
     def __init__(self, embedding):
         logger.info("[Retriever] 初始化检索服务...")
         self.embedding = embedding
-        # 建立底层 Client
+        # 建立底层 Client，配置 gRPC 选项以避免 too_many_pings 错误
         try:
-            self.client = MilvusClient(config.MILVUS_URI)
+            # 配置 gRPC 选项，调整 keepalive 时间和频率
+            grpc_options = {
+                'grpc.keepalive_time_ms': 30000,  # 30秒发送一次 keepalive ping
+                'grpc.keepalive_timeout_ms': 10000,  # 10秒超时
+                'grpc.keepalive_permit_without_calls': True,  # 允许在没有调用时发送 keepalive
+                'grpc.http2.max_pings_without_data': 5,  # 最大无数据 ping 次数
+                'grpc.http2.min_time_between_pings_ms': 5000  # 两次 ping 之间的最小时间
+            }
+            
+            self.client = MilvusClient(
+                config.MILVUS_URI,
+                grpc_options=grpc_options
+            )
             logger.info("[Milvus] 成功连接到数据库")
         except Exception as e:
             logger.error(f"[Error] 连接 Milvus 失败: {e}")
@@ -29,7 +41,18 @@ class VectorStoreService:
             try:
                 # 确保 database 目录存在
                 os.makedirs(os.path.dirname(config.MILVUS_URI), exist_ok=True)
-                self.client = MilvusClient(config.MILVUS_URI)
+                # 同样使用 gRPC 选项创建新数据库
+                grpc_options = {
+                    'grpc.keepalive_time_ms': 30000,
+                    'grpc.keepalive_timeout_ms': 10000,
+                    'grpc.keepalive_permit_without_calls': True,
+                    'grpc.http2.max_pings_without_data': 5,
+                    'grpc.http2.min_time_between_pings_ms': 5000
+                }
+                self.client = MilvusClient(
+                    config.MILVUS_URI,
+                    grpc_options=grpc_options
+                )
                 logger.info("[Milvus] 成功创建并连接到新数据库")
             except Exception as e2:
                 logger.error(f"[Error] 创建 Milvus 数据库失败: {e2}")

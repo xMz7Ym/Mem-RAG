@@ -85,10 +85,10 @@ class KnowledgeBaseService:
         try:
             client = MilvusClient(config.MILVUS_URI)
 
-            # --- 核心修改：先生成向量，获取其实际维度 ---
+            # --- 先生成向量，获取其实际维度 ---
             logger.info("[Storage] 正在生成向量并自动获取维度...")
             vectors = self.embeddings.embed_documents(knowledge_chunks)
-            actual_dim = len(vectors[0])  # 动态获取，这回绝对不会错了
+            actual_dim = len(vectors[0])
             logger.info(f"[Storage] 检测到模型输出维度为: {actual_dim}")
 
             # 如果表不存在，使用实际维度建表
